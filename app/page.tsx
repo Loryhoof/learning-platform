@@ -1,113 +1,143 @@
-import Image from "next/image";
+"use client"
+
+import { useRef, useState } from "react";
+
+function Card({lesson, onNextLesson}: any) {
+
+  const [textContent, setTextContent] = useState("")
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const [statusText, setStatusText] = useState("")
+
+  const handleInput = (e: Event | any) => {
+    setTextContent(e.target.value)
+  }
+
+  const handleCheck = () => {
+    if (textContent.length == 0) {
+      return
+    }
+
+    if(textContent.trim() == lesson.answer) {
+      console.log("correct!!")
+      setStatusText("Correct!")
+      setTextContent('')
+      onNextLesson()
+      
+      if(textAreaRef.current) {
+        textAreaRef.current.value = ''
+      }
+    }
+    else {
+      console.log("incorrect!!")
+      setStatusText("Incorrect!")
+    }
+  }
+
+  return (
+    <div className="bg-black w-1/2 rounded-lg">
+      <div className="flex flex-col items-center text-black text-lg font-semibold p-2">
+        {/* <div className="text-green-400">{statusText}</div> */}
+        <textarea ref={textAreaRef} onChange={handleInput} className="bg-black text-white p-2 resize-none w-full h-48 mt-2 rounded-xl border"></textarea>
+        <button onClick={handleCheck} className="bg-white rounded-lg p-2 mt-2">Submit</button>
+      </div>
+    </div>
+  )
+}
+
+interface Lesson {
+  id: number,
+  question: string,
+  answer: string
+}
+
+const threeJsQuestions: Lesson[] = [
+  {
+    id: 0,
+    question: "How do you create a Vector3 instance in Three.js?",
+    answer: "const vector = new THREE.Vector3();"
+  },
+  {
+    id: 1,
+    question: "How do you create a BoxGeometry in Three.js?",
+    answer: "const geometry = new THREE.BoxGeometry(width, height, depth);"
+  },
+  {
+    id: 2,
+    question: "How do you add a mesh to the scene in Three.js?",
+    answer: "scene.add(mesh);"
+  },
+  {
+    id: 3,
+    question: "How do you create a PerspectiveCamera in Three.js?",
+    answer: "const camera = new THREE.PerspectiveCamera(fov, aspectRatio, near, far);"
+  },
+  {
+    id: 4,
+    question: "How do you create a WebGLRenderer in Three.js?",
+    answer: "const renderer = new THREE.WebGLRenderer();"
+  },
+  {
+    id: 5,
+    question: "How do you create a PointLight in Three.js?",
+    answer: "const light = new THREE.PointLight(color, intensity);"
+  },
+  {
+    id: 6,
+    question: "How do you load a texture in Three.js?",
+    answer: "const textureLoader = new THREE.TextureLoader(); const texture = textureLoader.load('texture.jpg');"
+  },
+  {
+    id: 7,
+    question: "How do you create an animation loop in Three.js?",
+    answer: "function animate() { requestAnimationFrame(animate); renderer.render(scene, camera); } animate();"
+  },
+  {
+    id: 8,
+    question: "How do you create a material with a basic color in Three.js?",
+    answer: "const material = new THREE.MeshBasicMaterial({ color: 0xffffff });"
+  },
+  {
+    id: 9,
+    question: "How do you create a scene in Three.js?",
+    answer: "const scene = new THREE.Scene();"
+  }
+];
+
+const lessons: Lesson[] = [
+  {
+    id: 0,
+    question: "What is 1+1?",
+    answer: "2"
+  },
+  {
+    id: 1,
+    question: "What is 4+1?",
+    answer: "5"
+  }
+]
 
 export default function Home() {
+
+  const [lessonIndex, setLessonIndex] = useState(0)
+
+  const onNextLesson = () => {
+    // if(lessonIndex < lessons.length - 1) {
+    //   setLessonIndex(lessonIndex + 1)
+    // }
+
+    setLessonIndex(lessonIndex + 1)
+  }
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <main className="flex flex-col mt-4 items-center">
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      {lessonIndex < threeJsQuestions.length &&
+      <>
+        <div className="mb-2 font-semibold text-xl">Lesson {lessonIndex + 1}</div>
+        <div className="mb-4 font-semibold text-2xl text-yellow-400">{threeJsQuestions[lessonIndex].question}</div>
+        <Card lesson={threeJsQuestions[lessonIndex]} onNextLesson={onNextLesson}></Card>
+      </>
+      } 
     </main>
   );
 }
