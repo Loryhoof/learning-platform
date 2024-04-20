@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 function NavBar() {
   return (
-    <div className="flex flex-row justify-between p-4 border-b">
-      <div>Learn ThreeJS</div>
-      <div>Login</div>
+    <div className="flex flex-row justify-between p-4 border-b font-semibold">
+      <div>Learn Anything</div>
+      {/* <div>Login</div> */}
     </div> 
   )
 }
