@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react";
+import { KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import { thaiVocabulary } from "./categories/thai-100";
 import { getSumInArray, randomBetween, shuffleArray } from "./utils";
 import { vietnameseWords } from "./categories/viet-100";
@@ -138,8 +138,14 @@ function Card({lesson, onNextLesson}: any) {
     )
   }
 
+  const handleKeyPress = (event: any) => {
+    if(event.key == "Enter") {
+      handleCheck()
+    }
+  }
+
   return (
-    <div className="bg-black w-1/2 rounded-lg">
+    <div className="bg-black w-full md:w-1/3 rounded-lg p-4">
       {isReveal ? (
         <>
           <RevealCard lesson={lesson} onCloseReveal={handleCloseReveal}></RevealCard>
@@ -147,7 +153,7 @@ function Card({lesson, onNextLesson}: any) {
       ) :
       (
         <div className="flex flex-col items-center text-black text-lg font-semibold p-2">
-          <textarea ref={textAreaRef} onChange={handleInput} placeholder="Type the English word..." className="bg-black text-white p-2 resize-none w-full mt-2 border"></textarea>
+          <textarea ref={textAreaRef} onChange={handleInput} onKeyPress={handleKeyPress} placeholder="Type the English word..." className="bg-black text-white p-2 resize-none w-full mt-2 border"></textarea>
           <div className="flex flex-row gap-4 w-full">
             <button onClick={handleReveal} className="bg-white rounded-lg p-2 w-full mt-5">Peek 👀</button>
             <button onClick={handleCheck} className="bg-white rounded-lg p-2 w-full mt-5">Submit</button>
@@ -165,7 +171,7 @@ const course = "Thai"
 
 const ChoiceElement = ({str, onClick}: any) => {
   return (
-    <button onClick={onClick} className="p-4 border rounded-lg items-center text-center hover:bg-slate-800">{str}</button>
+    <button onClick={onClick} className="p-4 border rounded-lg items-center text-center hover:bg-slate-800 mt-4 md:h-40 md:w-40 md:text-xl">{str}</button>
   )
 }
 
@@ -226,10 +232,16 @@ export default function Home() {
   
 
   useEffect(() => {
-    const savedData = localStorage.getItem('lessonIndex') as string;
-    if (savedData) {
-      //setLessonIndex(parseInt(savedData));
+    const dataTotalLessons = localStorage.getItem('totalLessons') as string;
+    const dataStep = localStorage.getItem('step') as string;
+    if (dataTotalLessons) {
+      setTotalLessons(parseInt(dataTotalLessons));
     }
+
+    if(dataStep) {
+      setStep(parseInt(dataStep))
+    }
+
   }, []);
 
   const onNextLesson = () => {
@@ -251,7 +263,7 @@ export default function Home() {
 
     //console.log(getSumInArray(lessonState))
 
-    console.log(totalLessons, getSumInArray(lessonState))
+    //console.log(totalLessons, getSumInArray(lessonState))
 
     if(totalLessons >= step - 1) {
       let result = lessonIndex
@@ -262,7 +274,7 @@ export default function Home() {
 
       setLessonIndex(result)
 
-      if(getSumInArray(lessonState) >= 10) {
+      if(getSumInArray(lessonState) >= 10 && totalLessons < thaiVocabulary.length) {
         setTotalLessons(totalLessons + 1)
         setStep(step+1)
         setLessonState([])
@@ -277,7 +289,8 @@ export default function Home() {
     //   setLessonIndex(lessonIndex + 1)
     // }
 
-    //localStorage.setItem('lessonIndex', (lessonIndex + 1).toString());
+    localStorage.setItem('totalLessons', (totalLessons).toString());
+    localStorage.setItem('step', (step).toString());
   }
 
   const handleRomanizedChange = () => {
@@ -296,17 +309,17 @@ export default function Home() {
     }
 
     if(str.trim().toLowerCase() == stringToCheckWith.toString().toLowerCase()) {
-      console.log("correct!!!!!!!!")
+      //console.log("correct!!!!!!!!")
       onNextLesson()
     }
     else {
-      console.log("wrong")
+      //console.log("wrong")
     }
   }
 
   const handleRenderLesson = () => {
 
-    if(Math.random() < 0.9999999) {
+    if(Math.random() < 0.5) {
       return (
         <PickChoice lessons={lessons} currentIndex={lessonIndex} handleChoice={handleChoice}></PickChoice>
       )
@@ -319,6 +332,13 @@ export default function Home() {
   return (
     <main className="">
 
+    <div className="flex flex-row justify-between p-4 border-b font-semibold">
+          <div>Learn Thai</div>
+          {totalLessons > 0 &&
+            <div>Words Learned: {totalLessons}</div>}
+          {/* <div>Login</div> */}
+    </div> 
+
       {lessonIndex < lessons.length &&
       <>
       {/* <div>
@@ -330,8 +350,8 @@ export default function Home() {
           Show romanized
         </label>
       </div> */}
-        <div className="flex flex-col items-center w-full mt-40 ">
-          <div className="mb-2 font-semibold text-xl">{course} - {lessonIndex + 1} / 100</div>
+        <div className="flex flex-col items-center text-center w-full mt-40 ">
+          {/* <div className="mb-2 font-semibold text-xl">{course} - {lessonIndex + 1} / 100</div> */}
           <div className="mb-4 font-semibold text-4xl text-yellow-400">
             {lessons[lessonIndex].question} {showRomanized ? `- ${lessons[lessonIndex].romanized}` : ''}
           </div>
