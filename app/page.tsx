@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { thaiVocabulary } from "./categories/thai-100";
 import { getSumInArray, randomBetween, shuffleArray } from "./utils";
+import { vietnameseWords } from "./categories/viet-100";
 
 function RevealCard({lesson, onCloseReveal}: any) {
 
@@ -159,8 +160,8 @@ function Card({lesson, onNextLesson}: any) {
   )
 }
 
-const lessons = thaiVocabulary
-const course = "Thai"
+const lessons = vietnameseWords //thaiVocabulary
+const course = "Vietnamese" //"Thai"
 
 const ChoiceElement = ({str, onClick}: any) => {
   return (
@@ -216,7 +217,7 @@ function PickChoice({lessons, currentIndex, handleChoice}: any) {
 export default function Home() {
 
   const [lessonIndex, setLessonIndex] = useState(0)
-  const [showRomanized, setShowRomanized] = useState(true)
+  const [showRomanized, setShowRomanized] = useState(false)
   const [lessonState, setLessonState] = useState([]) as any
   const [totalLessons, setTotalLessons] = useState(0)
 
