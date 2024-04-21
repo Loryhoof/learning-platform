@@ -220,7 +220,7 @@ export const thaiVocabulary: Lesson[] = [
       id: 35,
       question: "เรียน",
       romanized: "rian",
-      answer: "Study"
+      answer: ["Study", "Learn"]
     },
     {
       id: 36,

@@ -145,7 +145,14 @@ function Card({lesson, onNextLesson}: any) {
         </>
       ) :
       (
-        handleRenderInputMethod()
+        <div className="flex flex-col items-center text-black text-lg font-semibold p-2">
+          <textarea ref={textAreaRef} onChange={handleInput} placeholder="Type the English word..." className="bg-black text-white p-2 resize-none w-full mt-2 border"></textarea>
+          <div className="flex flex-row gap-4 w-full">
+            <button onClick={handleReveal} className="bg-white rounded-lg p-2 w-full mt-5">Peek 👀</button>
+            <button onClick={handleCheck} className="bg-white rounded-lg p-2 w-full mt-5">Submit</button>
+          </div>
+          <div className={`${statusText === "Correct" ? `text-green-500`: `text-red-500`} mt-4`}>{statusText}</div>
+      </div>
       )
       }
     </div>
@@ -207,9 +214,17 @@ function PickChoice({lessons, currentIndex, handleChoice}: any) {
 }
 
 export default function Home() {
+  
 
   const [lessonIndex, setLessonIndex] = useState(0)
-  const [showRomanized, setShowRomanized] = useState(false)
+  const [showRomanized, setShowRomanized] = useState(true)
+
+  useEffect(() => {
+    const savedData = localStorage.getItem('lessonIndex') as any;
+    if (savedData) {
+      setLessonIndex(parseInt(savedData));
+    }
+  }, []);
 
   const onNextLesson = () => {
     // if(lessonIndex < lessons.length - 1) {
@@ -217,6 +232,7 @@ export default function Home() {
     // }
 
     setLessonIndex(lessonIndex + 1)
+    localStorage.setItem('lessonIndex', (lessonIndex + 1).toString());
   }
 
   const handleRomanizedChange = () => {
@@ -260,7 +276,7 @@ export default function Home() {
 
       {lessonIndex < lessons.length &&
       <>
-      <div>
+      {/* <div>
         <label className="">
          <input className="m-2" type="checkbox"
                 checked={showRomanized}
@@ -268,7 +284,7 @@ export default function Home() {
          ></input>
           Show romanized
         </label>
-      </div>
+      </div> */}
         <div className="flex flex-col items-center w-full mt-40 ">
           <div className="mb-2 font-semibold text-xl">{course} - Lesson {lessonIndex + 1}</div>
           <div className="mb-4 font-semibold text-4xl text-yellow-400">
