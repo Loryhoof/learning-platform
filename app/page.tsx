@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { thaiVocabulary } from "./categories/thai-100";
-import { shuffleArray } from "./utils";
+import { getSumInArray, randomBetween, shuffleArray } from "./utils";
 
 function RevealCard({lesson, onCloseReveal}: any) {
 
@@ -214,15 +214,20 @@ function PickChoice({lessons, currentIndex, handleChoice}: any) {
 }
 
 export default function Home() {
-  
 
   const [lessonIndex, setLessonIndex] = useState(0)
   const [showRomanized, setShowRomanized] = useState(true)
+  const [lessonState, setLessonState] = useState([]) as any
+  const [totalLessons, setTotalLessons] = useState(0)
+
+  const [step, setStep] = useState(5)
+
+  
 
   useEffect(() => {
-    const savedData = localStorage.getItem('lessonIndex') as any;
+    const savedData = localStorage.getItem('lessonIndex') as string;
     if (savedData) {
-      setLessonIndex(parseInt(savedData));
+      //setLessonIndex(parseInt(savedData));
     }
   }, []);
 
@@ -231,8 +236,47 @@ export default function Home() {
     //   setLessonIndex(lessonIndex + 1)
     // }
 
-    setLessonIndex(lessonIndex + 1)
-    localStorage.setItem('lessonIndex', (lessonIndex + 1).toString());
+    //lessonState[lessonIndex] = lessonState[lessonIndex] + 1
+
+    // let newArr = [...lessonState];
+    // newArr[lessonIndex] = lessonState[lessonIndex] + 1
+    // setLessonState(newArr);
+
+    const newState = [...lessonState]
+    newState[lessonIndex] = (newState[lessonIndex] ? newState[lessonIndex] : 1) + 1
+    setLessonState(newState)
+
+    
+
+    //console.log(getSumInArray(lessonState))
+
+    console.log(totalLessons, getSumInArray(lessonState))
+
+    if(totalLessons >= step - 1) {
+      let result = lessonIndex
+
+      while (result == lessonIndex) {
+        result = randomBetween(0, step - 1)
+      }
+
+      setLessonIndex(result)
+
+      if(getSumInArray(lessonState) >= 10) {
+        setTotalLessons(totalLessons + 1)
+        setStep(step+1)
+        setLessonState([])
+      }
+    }
+    else {
+      setLessonIndex(lessonIndex + 1)
+      setTotalLessons(totalLessons + 1)
+    }
+
+    // if(lessonState[lessonIndex] >= 3) {
+    //   setLessonIndex(lessonIndex + 1)
+    // }
+
+    //localStorage.setItem('lessonIndex', (lessonIndex + 1).toString());
   }
 
   const handleRomanizedChange = () => {
@@ -261,7 +305,7 @@ export default function Home() {
 
   const handleRenderLesson = () => {
 
-    if(Math.random() > 0.5) {
+    if(Math.random() < 0.9999999) {
       return (
         <PickChoice lessons={lessons} currentIndex={lessonIndex} handleChoice={handleChoice}></PickChoice>
       )
