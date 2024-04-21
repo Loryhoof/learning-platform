@@ -160,8 +160,8 @@ function Card({lesson, onNextLesson}: any) {
   )
 }
 
-const lessons = vietnameseWords //thaiVocabulary
-const course = "Vietnamese" //"Thai"
+const lessons = thaiVocabulary
+const course = "Thai"
 
 const ChoiceElement = ({str, onClick}: any) => {
   return (
@@ -217,7 +217,7 @@ function PickChoice({lessons, currentIndex, handleChoice}: any) {
 export default function Home() {
 
   const [lessonIndex, setLessonIndex] = useState(0)
-  const [showRomanized, setShowRomanized] = useState(false)
+  const [showRomanized, setShowRomanized] = useState(true)
   const [lessonState, setLessonState] = useState([]) as any
   const [totalLessons, setTotalLessons] = useState(0)
 
