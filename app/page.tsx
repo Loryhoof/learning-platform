@@ -330,7 +330,7 @@ export default function Home() {
         </label>
       </div> */}
         <div className="flex flex-col items-center w-full mt-40 ">
-          <div className="mb-2 font-semibold text-xl">{course} - Lesson {lessonIndex + 1}</div>
+          <div className="mb-2 font-semibold text-xl">{course} - {lessonIndex + 1} / 100</div>
           <div className="mb-4 font-semibold text-4xl text-yellow-400">
             {lessons[lessonIndex].question} {showRomanized ? `- ${lessons[lessonIndex].romanized}` : ''}
           </div>
