@@ -4,6 +4,7 @@ import { KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import { thaiVocabulary } from "./categories/thai-100";
 import { getSumInArray, randomBetween, shuffleArray } from "./utils";
 import { vietnameseWords } from "./categories/viet-100";
+import { HiMiniSpeakerWave, HiOutlineSpeakerWave } from "react-icons/hi2";
 
 function RevealCard({lesson, onCloseReveal}: any) {
 
@@ -194,6 +195,8 @@ export default function Home() {
 
   const [loading, setLoading] = useState(false)
 
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(null)
+
   
 
   useEffect(() => {
@@ -207,6 +210,13 @@ export default function Home() {
       setStep(parseInt(dataStep))
     }
 
+    let str = []
+    for (let i = 0; i < thaiVocabulary.length; i++) {
+      str.push(thaiVocabulary[i].question)
+    }
+
+    console.log(str)
+
   }, []);
 
   const onSubmitLesson = (isCorrect: boolean) => {
@@ -215,9 +225,11 @@ export default function Home() {
 
     if(isCorrect) {
       setStatusText(correctString)
+      playChimeRight()
     }
     else {
       setStatusText(incorrectString)
+      playChimeWrong()
     }
 
     // setTimeout(() => {
@@ -318,6 +330,28 @@ export default function Home() {
     )
   }
 
+  const playChimeRight = () => {
+    const newAudio = new Audio(`/audio/int/right.mp3`)
+    newAudio.play()
+  }
+
+  const playChimeWrong = () => {
+    const newAudio = new Audio(`/audio/int/wrong.mp3`)
+    newAudio.play()
+  }
+
+  const playLanguageSound = () => {
+
+    // if(audio) {
+    //   audio.pause()
+    // }
+
+    const newAudio = new Audio(`/audio/thai/${lessonIndex}.mp3`)
+    //setAudio(newAudio)
+    newAudio.play()
+
+  }
+
   return (
     <main className="">
 
@@ -341,9 +375,11 @@ export default function Home() {
       </div> */}
         <div className="flex flex-col items-center text-center w-full mt-40 ">
           {/* <div className="mb-2 font-semibold text-xl">{course} - {lessonIndex + 1} / 100</div> */}
-          <div className="mb-4 font-semibold text-4xl text-yellow-400">
+          <div className="flex flex-row mb-4 font-semibold text-4xl text-yellow-400">
             {lessons[lessonIndex].question} {showRomanized ? `- ${lessons[lessonIndex].romanized}` : ''}
+            <div onClick={playLanguageSound} className="bg-green-400 rounded-lg p-2 ml-4 hover:bg-green-600"><HiMiniSpeakerWave  className="text-black text-2xl"></HiMiniSpeakerWave></div>
           </div>
+
           {!loading ? (
             handleRenderLesson()
           ) : (
