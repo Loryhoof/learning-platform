@@ -9,11 +9,11 @@ function RevealCard({lesson, onCloseReveal}: any) {
 
   const renderAnswer = (): any => {
 
-    let str = lesson.answer;
+    let str = lesson.answer[0];
 
-    if(Array.isArray(lesson.answer)) {
-      str = lesson.answer.join(' / ')
-    }
+    // if(Array.isArray(lesson.answer)) {
+    //   str = lesson.answer.join(' / ')
+    // }
 
     return (
       <div className="text-green-400 text-xl font-semibold">
@@ -30,11 +30,10 @@ function RevealCard({lesson, onCloseReveal}: any) {
   )
 }
 
-function Card({lesson, onNextLesson}: any) {
+function Card({lesson, onNextLesson, onSubmitLesson}: any) {
 
   const [textContent, setTextContent] = useState("")
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
-  const [statusText, setStatusText] = useState("")
 
   const [isReveal, setIsReveal] = useState(false)
 
@@ -50,49 +49,14 @@ function Card({lesson, onNextLesson}: any) {
     setTextContent(e.target.value)
   }
 
-  const renderStatus = () => {
-
-    // if(statusText == "Correct") {
-    //   return (
-    //     <div></div>
-    //   )
-    // }
-
-
-    return (
-      <div className={`${statusText === "Correct" ? `text-red-500`: `text-green-500`} mt-4`}>{statusText}</div>
-    )
-  }
-
-  function InputCard() {
-    return (
-      <div className="flex flex-col items-center text-black text-lg font-semibold p-2">
-        <textarea ref={textAreaRef} onChange={handleInput} placeholder="Type the English word..." className="bg-black text-white p-2 resize-none w-full mt-2 border"></textarea>
-        <div className="flex flex-row gap-4 w-full">
-          <button onClick={handleReveal} className="bg-white rounded-lg p-2 w-full mt-5">Peek 👀</button>
-          <button onClick={handleCheck} className="bg-white rounded-lg p-2 w-full mt-5">Submit</button>
-        </div>
-        <div className={`${statusText === "Correct" ? `text-green-500`: `text-red-500`} mt-4`}>{statusText}</div>
-      </div>
-    )
-  }
-
-  function PickCard() {
-    return (
-      <div className="flex flex-col items-center text-black text-lg font-semibold p-2">
-
-      </div>
-    )
-  }
-
   const handleCheck = () => {
 
-    setTimeout(() => {
-      setStatusText("")
-    }, 1000)
+    // setTimeout(() => {
+    //   //setStatusText("")
+    // }, 1000)
 
     if (textContent.length == 0) {
-      setStatusText("Field is empty")
+      //setStatusText("Field is empty")
       return
     }
 
@@ -100,9 +64,9 @@ function Card({lesson, onNextLesson}: any) {
       for (let i = 0; i < lesson.answer.length; i++) {
         if(lesson.answer[i].toLowerCase() == textContent.trim().toLowerCase()) {
           //console.log("correct!!")
-          setStatusText("Correct")
           setTextContent('')
-          onNextLesson()
+          onSubmitLesson(true)
+          //onNextLesson()
           
           if(textAreaRef.current) {
             textAreaRef.current.value = ''
@@ -111,15 +75,15 @@ function Card({lesson, onNextLesson}: any) {
           break
         }
         else {
-          setStatusText("Incorrect")
+          onSubmitLesson(false)
         }
       }
     }
     else if(textContent.trim().toLowerCase() == lesson.answer.toLowerCase()) {
       //console.log("correct!!")
-      setStatusText("Correct")
+      onSubmitLesson(true)
       setTextContent('')
-      onNextLesson()
+      //onNextLesson()
       
       if(textAreaRef.current) {
         textAreaRef.current.value = ''
@@ -128,14 +92,8 @@ function Card({lesson, onNextLesson}: any) {
     else {
       //console.log("incorrect!!")
       //console.log("incorrect")
-      setStatusText("Incorrect")
+      onSubmitLesson(false)
     }
-  }
-
-  const handleRenderInputMethod = () => {
-    return (
-      <InputCard/>
-    )
   }
 
   const handleKeyPress = (event: any) => {
@@ -158,7 +116,7 @@ function Card({lesson, onNextLesson}: any) {
             <button onClick={handleReveal} className="bg-white rounded-lg p-2 w-full mt-5">Peek 👀</button>
             <button onClick={handleCheck} className="bg-white rounded-lg p-2 w-full mt-5">Submit</button>
           </div>
-          <div className={`${statusText === "Correct" ? `text-green-500`: `text-red-500`} mt-4`}>{statusText}</div>
+          {/* <div className={`${statusText === "Correct" ? `text-green-500`: `text-red-500`} mt-4`}>{statusText}</div> */}
       </div>
       )
       }
@@ -171,7 +129,7 @@ const course = "Thai"
 
 const ChoiceElement = ({str, onClick}: any) => {
   return (
-    <button onClick={onClick} className="p-4 border rounded-lg items-center text-center hover:bg-slate-800 mt-4 md:h-40 md:w-40 md:text-xl">{str}</button>
+    <button onClick={onClick} className="p-4 border rounded-lg items-center text-center hover:bg-yellow-400 hover:text-black font-bold mt-4 md:h-40 md:w-40 md:text-xl">{str}</button>
   )
 }
 
@@ -220,6 +178,9 @@ function PickChoice({lessons, currentIndex, handleChoice}: any) {
   )
 }
 
+const correctString = "Correct 🎉"
+const incorrectString = "Incorrect 😞"
+
 export default function Home() {
 
   const [lessonIndex, setLessonIndex] = useState(0)
@@ -227,7 +188,11 @@ export default function Home() {
   const [lessonState, setLessonState] = useState([]) as any
   const [totalLessons, setTotalLessons] = useState(0)
 
+  const [statusText, setStatusText] = useState("")
+  
   const [step, setStep] = useState(5)
+
+  const [loading, setLoading] = useState(false)
 
   
 
@@ -244,7 +209,29 @@ export default function Home() {
 
   }, []);
 
+  const onSubmitLesson = (isCorrect: boolean) => {
+
+    setLoading(true)
+
+    if(isCorrect) {
+      setStatusText(correctString)
+    }
+    else {
+      setStatusText(incorrectString)
+    }
+
+    // setTimeout(() => {
+    //   setStatusText("")
+    //   onNextLesson()
+    //   setLoading(false)
+    // }, 1000)
+  }
+
   const onNextLesson = () => {
+
+    setStatusText("")
+    setLoading(false)
+    
     // if(lessonIndex < lessons.length - 1) {
     //   setLessonIndex(lessonIndex + 1)
     // }
@@ -302,18 +289,20 @@ export default function Home() {
       return
     }
 
-    let stringToCheckWith = lessons[lessonIndex].answer
+    let stringToCheckWith = lessons[lessonIndex].answer[0]
 
-    if(Array.isArray(lessons[lessonIndex].answer)) {
-      stringToCheckWith = lessons[lessonIndex].answer[0]
-    }
+    // if(Array.isArray(lessons[lessonIndex].answer)) {
+    //   stringToCheckWith = lessons[lessonIndex].answer[0]
+    // }
 
     if(str.trim().toLowerCase() == stringToCheckWith.toString().toLowerCase()) {
       //console.log("correct!!!!!!!!")
-      onNextLesson()
+      onSubmitLesson(true)
+      //onNextLesson()
     }
     else {
       //console.log("wrong")
+      onSubmitLesson(false)
     }
   }
 
@@ -325,7 +314,7 @@ export default function Home() {
       )
     }
     return (
-      <Card lesson={lessons[lessonIndex]} onNextLesson={onNextLesson}></Card>
+      <Card lesson={lessons[lessonIndex]} onSubmitLesson={onSubmitLesson} onNextLesson={onNextLesson}></Card>
     )
   }
 
@@ -355,7 +344,15 @@ export default function Home() {
           <div className="mb-4 font-semibold text-4xl text-yellow-400">
             {lessons[lessonIndex].question} {showRomanized ? `- ${lessons[lessonIndex].romanized}` : ''}
           </div>
-          {handleRenderLesson()}
+          {!loading ? (
+            handleRenderLesson()
+          ) : (
+            <div className="text-2xl">
+              <div className={`${statusText === correctString ? "text-green-500" : "text-red-500"} mt-4 font-semibold`}>{statusText}</div>
+              <div className="">The answer was: <span className="text-yellow-400 font-semibold text-xl">{lessons[lessonIndex].answer[0]}</span></div>
+              <button onClick={onNextLesson} className="bg-white rounded-lg text-black font-semibold p-3 mt-5 hover:bg-gray-100">Next Lesson</button>
+            </div>
+          )}
         </div>
       </>
       } 

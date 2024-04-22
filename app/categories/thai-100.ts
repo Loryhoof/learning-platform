@@ -2,7 +2,7 @@ interface Lesson {
     id: number,
     question: string,
     romanized: string,
-    answer: string | string[]
+    answer: string[]
   }
 
 export const thaiVocabulary: Lesson[] = [
@@ -16,7 +16,7 @@ export const thaiVocabulary: Lesson[] = [
       id: 1,
       question: "เธอ",
       romanized: "ter",
-      answer: "You"
+      answer: ["You"]
     },
     {
       id: 2,
@@ -28,55 +28,55 @@ export const thaiVocabulary: Lesson[] = [
       id: 3,
       question: "มัน",
       romanized: "man",
-      answer: "It"
+      answer: ["It"]
     },
     {
       id: 4,
       question: "เรา",
       romanized: "rao",
-      answer: "We"
+      answer: ["We"]
     },
     {
       id: 5,
       question: "คุณ",
       romanized: "kun",
-      answer: "You"
+      answer: ["You"]
     },
     {
       id: 6,
       question: "พวกเขา",
       romanized: "puak kao",
-      answer: "They"
+      answer: ["They"]
     },
     {
       id: 7,
       question: "ครอบครัว",
       romanized: "khrong khrua",
-      answer: "Family"
+      answer: ["Family"]
     },
     {
       id: 8,
       question: "เพื่อน",
       romanized: "puean",
-      answer: "Friend"
+      answer: ["Friend"]
     },
     {
       id: 9,
       question: "รัก",
       romanized: "rak",
-      answer: "Love"
+      answer: ["Love"]
     },
     {
       id: 10,
       question: "สวัสดี",
       romanized: "sawatdi",
-      answer: "Hello"
+      answer: ["Hello"]
     },
     {
       id: 11,
       question: "ลาก่อน",
       romanized: "la-kon",
-      answer: "Goodbye"
+      answer: ["Goodbye"]
     },
     {
       id: 12,
@@ -88,7 +88,7 @@ export const thaiVocabulary: Lesson[] = [
       id: 13,
       question: "โทษ",
       romanized: "thot",
-      answer: "Sorry"
+      answer: ["Sorry"]
     },
     {
       id: 14,
@@ -100,97 +100,97 @@ export const thaiVocabulary: Lesson[] = [
       id: 15,
       question: "ชื่อ",
       romanized: "cheu",
-      answer: "Name"
+      answer: ["Name"]
     },
     {
       id: 16,
       question: "อาหาร",
       romanized: "aahaan",
-      answer: "Food"
+      answer: ["Food"]
     },
     {
       id: 17,
       question: "น้ำ",
       romanized: "nam",
-      answer: "Water"
+      answer: ["Water"]
     },
     {
       id: 18,
       question: "อากาศ",
       romanized: "a-gard",
-      answer: "Weather"
+      answer: ["Weather"]
     },
     {
       id: 19,
       question: "วัน",
       romanized: "wan",
-      answer: "Day"
+      answer: ["Day"]
     },
     {
       id: 20,
       question: "คืน",
       romanized: "kheun",
-      answer: "Night"
+      answer: ["Night"]
     },
     {
       id: 21,
       question: "กิน",
       romanized: "gin",
-      answer: "Eat"
+      answer: ["Eat"]
     },
     {
       id: 22,
       question: "ดื่ม",
       romanized: "duem",
-      answer: "Drink"
+      answer: ["Drink"]
     },
     {
       id: 23,
       question: "นอน",
       romanized: "non",
-      answer: "Sleep"
+      answer: ["Sleep"]
     },
     {
       id: 24,
       question: "ไป",
       romanized: "pai",
-      answer: "Go"
+      answer: ["Go"]
     },
     {
       id: 25,
       question: "มา",
       romanized: "maa",
-      answer: "Come"
+      answer: ["Come"]
     },
     {
       id: 26,
       question: "ดู",
       romanized: "du",
-      answer: "See"
+      answer: ["See"]
     },
     {
       id: 27,
       question: "ฟัง",
       romanized: "fang",
-      answer: "Listen"
+      answer: ["Listen"]
     },
     {
       id: 28,
       question: "พูด",
       romanized: "pood",
-      answer: "Speak"
+      answer: ["Speak"]
     },
     {
       id: 29,
       question: "อ่าน",
       romanized: "aan",
-      answer: "Read"
+      answer: ["Read"]
     },
     {
       id: 30,
       question: "เขียน",
       romanized: "khian",
-      answer: "Write"
+      answer: ["Write"]
     },
     {
       id: 31,
@@ -202,19 +202,19 @@ export const thaiVocabulary: Lesson[] = [
       id: 32,
       question: "รู้",
       romanized: "ru",
-      answer: "Know"
+      answer: ["Know"]
     },
     {
       id: 33,
       question: "สนุก",
       romanized: "sanook",
-      answer: "Fun"
+      answer: ["Fun"]
     },
     {
       id: 34,
       question: "งาน",
       romanized: "ngan",
-      answer: "Work"
+      answer: ["Work"]
     },
     {
       id: 35,
@@ -226,384 +226,384 @@ export const thaiVocabulary: Lesson[] = [
       id: 36,
       question: "เล่น",
       romanized: "len",
-      answer: "Play"
+      answer: ["Play"]
     },
     {
       id: 37,
       question: "ซื้อ",
       romanized: "sue",
-      answer: "Buy"
+      answer: ["Buy"]
     },
     {
       id: 38,
       question: "ขาย",
       romanized: "khai",
-      answer: "Sell"
+      answer: ["Sell"]
     },
     {
       id: 39,
       question: "ราคา",
       romanized: "ra-kaa",
-      answer: "Price"
+      answer: ["Price"]
     },
     {
       id: 40,
       question: "ตลาด",
       romanized: "talaad",
-      answer: "Market"
+      answer: ["Market"]
     },
     {
       id: 41,
       question: "สินค้า",
       romanized: "sin-kha",
-      answer: "Goods"
+      answer: ["Goods"]
     },
     {
       id: 42,
       question: "ตึก",
       romanized: "teuk",
-      answer: "Building"
+      answer: ["Building"]
     },
     {
       id: 43,
       question: "ห้อง",
       romanized: "hong",
-      answer: "Room"
+      answer: ["Room"]
     },
     {
       id: 44,
       question: "รถ",
       romanized: "rot",
-      answer: "Car"
+      answer: ["Car"]
     },
     {
       id: 45,
       question: "จักรยาน",
       romanized: "jak-ka-yaan",
-      answer: "Bicycle"
+      answer: ["Bicycle"]
     },
     {
       id: 46,
       question: "เรือ",
       romanized: "ruea",
-      answer: "Boat"
+      answer: ["Boat"]
     },
     {
       id: 47,
       question: "อากาศยาน",
       romanized: "a-gaht-yaan",
-      answer: "Airplane"
+      answer: ["Airplane"]
     },
     {
       id: 48,
       question: "สถานี",
       romanized: "sataanii",
-      answer: "Station"
+      answer: ["Station"]
     },
     {
       id: 49,
       question: "สนามบิน",
       romanized: "sanaam bin",
-      answer: "Airport"
+      answer: ["Airport"]
     },
     {
       id: 50,
       question: "โรงพยาบาล",
       romanized: "roong payabaal",
-      answer: "Hospital"
+      answer: ["Hospital"]
     },
     {
       id: 51,
       question: "โรงเรียน",
       romanized: "roong rian",
-      answer: "School"
+      answer: ["School"]
     },
     {
       id: 52,
       question: "มหาวิทยาลัย",
       romanized: "mahawittayalai",
-      answer: "University"
+      answer: ["University", "College"]
     },
     {
       id: 53,
       question: "ครู",
       romanized: "khru",
-      answer: "Teacher"
+      answer: ["Teacher"]
     },
     {
       id: 54,
       question: "นักเรียน",
       romanized: "nak rian",
-      answer: "Student"
+      answer: ["Student"]
     },
     {
       id: 55,
       question: "หนังสือ",
       romanized: "nang-sue",
-      answer: "Book"
+      answer: ["Book"]
     },
     {
       id: 56,
       question: "ดินสอ",
       romanized: "din-saw",
-      answer: "Pencil"
+      answer: ["Pencil", "Pen"]
     },
     {
       id: 57,
       question: "คอมพิวเตอร์",
       romanized: "kom-pi-oot",
-      answer: "Computer"
+      answer: ["Computer", "Pc"]
     },
     {
       id: 58,
       question: "โทรศัพท์",
       romanized: "tho-ra-sap",
-      answer: "Telephone"
+      answer: ["Telephone", "Phone"]
     },
     {
       id: 59,
       question: "อินเทอร์เน็ต",
       romanized: "in-thoe-net",
-      answer: "Internet"
+      answer: ["Internet"]
     },
     {
       id: 60,
       question: "ทีวี",
       romanized: "ti-wii",
-      answer: "TV"
+      answer: ["TV", "Television"]
     },
     {
       id: 61,
       question: "ข่าว",
       romanized: "kaao",
-      answer: "News"
+      answer: ["News"]
     },
     {
       id: 62,
       question: "ภาพยนตร์",
       romanized: "paap-ya-nont",
-      answer: "Movie"
+      answer: ["Movie", "Film"]
     },
     {
       id: 63,
       question: "ดนตรี",
       romanized: "don-tri",
-      answer: "Music"
+      answer: ["Music"]
     },
     {
       id: 64,
       question: "เพลง",
       romanized: "pleng",
-      answer: "Song"
+      answer: ["Song"]
     },
     {
       id: 65,
       question: "กีฬา",
       romanized: "ki-laa",
-      answer: "Sport"
+      answer: ["Sport", "Sports"]
     },
     {
       id: 66,
       question: "เกม",
       romanized: "gaem",
-      answer: "Game"
+      answer: ["Game"]
     },
     {
       id: 67,
       question: "สี",
       romanized: "see",
-      answer: "Color"
+      answer: ["Color", "Colour"]
     },
     {
       id: 68,
       question: "แดง",
       romanized: "daeng",
-      answer: "Red"
+      answer: ["Red"]
     },
     {
       id: 69,
       question: "ฟ้า",
       romanized: "faa",
-      answer: "Blue"
+      answer: ["Blue"]
     },
     {
       id: 70,
       question: "เขียว",
       romanized: "kiew",
-      answer: "Green"
+      answer: ["Green"]
     },
     {
       id: 71,
       question: "ดำ",
       romanized: "dam",
-      answer: "Black"
+      answer: ["Black"]
     },
     {
       id: 72,
       question: "ขาว",
       romanized: "kaow",
-      answer: "White"
+      answer: ["White"]
     },
     {
       id: 73,
       question: "เหลือง",
       romanized: "leuang",
-      answer: "Yellow"
+      answer: ["Yellow"]
     },
     {
       id: 74,
       question: "ส้ม",
       romanized: "som",
-      answer: "Orange"
+      answer: ["Orange"]
     },
     {
       id: 75,
       question: "ม่วง",
       romanized: "muang",
-      answer: "Purple"
+      answer: ["Purple"]
     },
     {
       id: 76,
       question: "สีชมพู",
       romanized: "see chom-pu",
-      answer: "Pink"
+      answer: ["Pink"]
     },
     {
       id: 77,
       question: "ดอกไม้",
       romanized: "dok mai",
-      answer: "Flower"
+      answer: ["Flower"]
     },
     {
       id: 78,
       question: "ต้นไม้",
       romanized: "ton-mai",
-      answer: "Tree"
+      answer: ["Tree"]
     },
     {
       id: 79,
       question: "ทะเล",
       romanized: "tha-le",
-      answer: "Sea"
+      answer: ["Sea"]
     },
     {
       id: 80,
       question: "ภูเขา",
       romanized: "poo khao",
-      answer: "Mountain"
+      answer: ["Mountain"]
     },
     {
       id: 81,
       question: "แม่น้ำ",
       romanized: "mae nam",
-      answer: "River"
+      answer: ["River"]
     },
     {
       id: 82,
       question: "ดาว",
       romanized: "dao",
-      answer: "Star"
+      answer: ["Star"]
     },
     {
       id: 83,
       question: "พระจันทร์",
       romanized: "pra jan",
-      answer: "Moon"
+      answer: ["Moon"]
     },
     {
       id: 84,
       question: "พระอาทิตย์",
       romanized: "pra a-tit",
-      answer: "Sun"
+      answer: ["Sun"]
     },
     {
       id: 85,
       question: "ฤดูกาล",
       romanized: "ruedoo kaan",
-      answer: "Season"
+      answer: ["Season"]
     },
     {
       id: 86,
       question: "ยามว่าง",
       romanized: "yam waang",
-      answer: "Free time"
+      answer: ["Free time"]
     },
     {
       id: 87,
       question: "วันหยุด",
       romanized: "wan yut",
-      answer: "Holiday"
+      answer: ["Holiday"]
     },
     {
       id: 88,
       question: "เทศกาล",
       romanized: "thet-sa-gaan",
-      answer: "Festival"
+      answer: ["Festival"]
     },
     {
       id: 89,
       question: "เพื่อนฝูง",
       romanized: "puean fuung",
-      answer: "Peers"
+      answer: ["Peers"]
     },
     {
       id: 90,
       question: "สุขภาพ",
       romanized: "suk-kha-paap",
-      answer: "Health"
+      answer: ["Health"]
     },
     {
       id: 91,
       question: "วัยรุ่น",
       romanized: "wai roon",
-      answer: "Teenager"
+      answer: ["Teenager", "Teen"]
     },
     {
       id: 92,
       question: "ผู้ใหญ่",
       romanized: "poo yai",
-      answer: "Adult"
+      answer: ["Adult"]
     },
     {
       id: 93,
       question: "ความคิดเห็น",
       romanized: "khwam kit hen",
-      answer: "Opinion"
+      answer: ["Opinion"]
     },
     {
       id: 94,
       question: "สัตว์",
       romanized: "sat",
-      answer: "Animal"
+      answer: ["Animal"]
     },
     {
       id: 95,
       question: "ทรัพยากร",
       romanized: "sra-pa-ya-kon",
-      answer: "Resource"
+      answer: ["Resource"]
     },
     {
       id: 96,
       question: "สิ่งแวดล้อม",
       romanized: "sing waed lom",
-      answer: "Environment"
+      answer: ["Environment"]
     },
     {
       id: 97,
       question: "ปัญหา",
       romanized: "pan-haa",
-      answer: "Problem"
+      answer: ["Problem"]
     },
     {
       id: 98,
       question: "อนาคต",
       romanized: "a-na-kot",
-      answer: "Future"
+      answer: ["Future"]
     },
     {
       id: 99,
       question: "ความหวัง",
       romanized: "khwam wang",
-      answer: "Hope"
+      answer: ["Hope"]
     }
   ]
