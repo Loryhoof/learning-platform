@@ -125,7 +125,7 @@ function Card({lesson, onNextLesson, onSubmitLesson}: any) {
   )
 }
 
-const lessons = thaiVocabulary
+const lessons = thaiVocabulary //
 const course = "Thai"
 
 const ChoiceElement = ({str, onClick}: any) => {
