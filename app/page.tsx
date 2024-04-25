@@ -5,6 +5,9 @@ import { thaiVocabulary } from "./categories/thai-100";
 import { getSumInArray, randomBetween, shuffleArray } from "./utils";
 import { vietnameseWords } from "./categories/viet-100";
 import { HiMiniSpeakerWave, HiOutlineSpeakerWave } from "react-icons/hi2";
+import { GoGear } from "react-icons/go";
+import { Switch } from "@/components/ui/switch";
+import { IoMdClose } from "react-icons/io";
 
 function RevealCard({lesson, onCloseReveal}: any) {
 
@@ -104,7 +107,7 @@ function Card({lesson, onNextLesson, onSubmitLesson}: any) {
   }
 
   return (
-    <div className="bg-black w-full md:w-1/3 rounded-lg p-4">
+    <div className="w-full md:w-1/3 rounded-lg p-4">
       {isReveal ? (
         <>
           <RevealCard lesson={lesson} onCloseReveal={handleCloseReveal}></RevealCard>
@@ -197,11 +200,14 @@ export default function Home() {
 
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null)
 
+  const [settingsOpen, setSettingsOpen] = useState(false)
+
   
 
   useEffect(() => {
     const dataTotalLessons = localStorage.getItem('totalLessons') as string;
     const dataStep = localStorage.getItem('step') as string;
+    const romanized = localStorage.getItem('romanized') as string;
     if (dataTotalLessons) {
       setTotalLessons(parseInt(dataTotalLessons));
     }
@@ -210,14 +216,25 @@ export default function Home() {
       setStep(parseInt(dataStep))
     }
 
+    if(romanized) {
+      console.log(romanized)
+      if(romanized == "true") {
+        setShowRomanized(true)
+      }
+      else {
+        setShowRomanized(false)
+      }
+    }
+
     let str = []
     for (let i = 0; i < thaiVocabulary.length; i++) {
       str.push(thaiVocabulary[i].question)
     }
 
-    console.log(str)
+    //console.log(str)
 
   }, []);
+
 
   const onSubmitLesson = (isCorrect: boolean) => {
 
@@ -293,8 +310,12 @@ export default function Home() {
   }
 
   const handleRomanizedChange = () => {
-    setShowRomanized(!showRomanized)
-  }
+    setShowRomanized(prevShowRomanized => {
+        const updatedShowRomanized = !prevShowRomanized;
+        localStorage.setItem('romanized', updatedShowRomanized.toString());
+        return updatedShowRomanized;
+    });
+};
 
   const handleChoice = (str: string) => {
     if(str.length == 0) {
@@ -340,6 +361,10 @@ export default function Home() {
     newAudio.play()
   }
 
+  const handleToggleSettings = () => {
+    setSettingsOpen(!settingsOpen)
+  }
+
   const playLanguageSound = () => {
 
     // if(audio) {
@@ -356,13 +381,21 @@ export default function Home() {
     <main className="">
 
     <div className="flex flex-row justify-between p-4 border-b font-semibold">
-          <div>Learn Thai</div>
+          {settingsOpen ?
+            <>
+              <IoMdClose onClick={handleToggleSettings} className="hover:text-yellow-400" size={24}></IoMdClose>
+            </>
+            :
+            <>
+              <GoGear onClick={handleToggleSettings} className="hover:text-yellow-400" size={24}></GoGear>
+            </>
+          }
           {totalLessons > 0 &&
             <div>Words Learned: {totalLessons}</div>}
           {/* <div>Login</div> */}
     </div> 
 
-      {lessonIndex < lessons.length &&
+      {!settingsOpen && lessonIndex < lessons.length &&
       <>
       {/* <div>
         <label className="">
@@ -389,6 +422,29 @@ export default function Home() {
               <button onClick={onNextLesson} className="bg-white rounded-lg text-black font-semibold p-3 mt-5 hover:bg-gray-100">Next Lesson</button>
             </div>
           )}
+        </div>
+      </>
+      }
+
+      {settingsOpen && 
+      <>
+        <div className="flex flex-col items-center text-center w-full mt-40">
+          <h1 className="text-3xl mb-6">Preferences</h1>
+          {/* <label className="">
+          <input className="m-2" type="checkbox"
+                  checked={showRomanized}
+                  onChange={handleRomanizedChange}
+          ></input>
+            Show Romanized
+          </label> */}
+          <div className="flex flex-row gap-2 text-xl">
+            <div>Show Romanized</div>
+            <Switch
+              checked={showRomanized}
+              onCheckedChange={handleRomanizedChange}
+              aria-readonly
+            />
+          </div>
         </div>
       </>
       } 
