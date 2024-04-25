@@ -8,6 +8,8 @@ import { HiMiniSpeakerWave, HiOutlineSpeakerWave } from "react-icons/hi2";
 import { GoGear } from "react-icons/go";
 import { Switch } from "@/components/ui/switch";
 import { IoMdClose } from "react-icons/io";
+import { IoLanguage } from "react-icons/io5";
+import Image from "next/image";
 
 function RevealCard({lesson, onCloseReveal}: any) {
 
@@ -202,6 +204,11 @@ export default function Home() {
 
   const [settingsOpen, setSettingsOpen] = useState(false)
 
+
+  //language selection stuff
+  const [selectedLanguage, setSelectedLanguage] = useState("")
+  const [languageSelectionIsOpen, setLanguageSelectionIsOpen] = useState(true)
+
   
 
   useEffect(() => {
@@ -365,6 +372,20 @@ export default function Home() {
     setSettingsOpen(!settingsOpen)
   }
 
+  const handlePickLanguage = (language: string) => {
+    setSelectedLanguage(language)
+    setLanguageSelectionIsOpen(false)
+    handleCloseLanguagePicker()
+  }
+
+  const handleOpenLanguagePicker = () => {
+    setLanguageSelectionIsOpen(true)
+  }
+
+  const handleCloseLanguagePicker = () => {
+    setLanguageSelectionIsOpen(false)
+  }
+
   const playLanguageSound = () => {
 
     // if(audio) {
@@ -380,16 +401,24 @@ export default function Home() {
   return (
     <main className="">
 
+    {!languageSelectionIsOpen ?
+    <>
+
     <div className="flex flex-row justify-between p-4 border-b font-semibold">
-          {settingsOpen ?
-            <>
-              <IoMdClose onClick={handleToggleSettings} className="hover:text-yellow-400" size={24}></IoMdClose>
-            </>
-            :
-            <>
-              <GoGear onClick={handleToggleSettings} className="hover:text-yellow-400" size={24}></GoGear>
-            </>
-          }
+      <div className="flex flex-row gap-4 ">
+        {settingsOpen ?
+          <>
+            <IoMdClose onClick={handleToggleSettings} className="hover:text-yellow-400" size={24}></IoMdClose>
+          </>
+          :
+          <>
+            <GoGear onClick={handleToggleSettings} className="hover:text-yellow-400" size={24}></GoGear>
+          </>
+        }
+        <div className="hover:text-yellow-400">
+          <IoLanguage onClick={handleOpenLanguagePicker} size={24}></IoLanguage>
+        </div>
+      </div>
           {totalLessons > 0 &&
             <div>Words Learned: {totalLessons}</div>}
           {/* <div>Login</div> */}
@@ -448,6 +477,39 @@ export default function Home() {
         </div>
       </>
       } 
+      </>
+      :
+      <>
+      <div className="flex flex-col items-center text-center w-full mt-40 ">
+          <h1 className="text-3xl mb-6">Pick A Language</h1>
+          <div className="flex flex-col gap-4">
+            <div onClick={() => handlePickLanguage("Thai")} className="p-2 border-4 bg-slate-800 border-slate-700 rounded-xl text-white w-48 text-2xl flex flex-col items-center
+            hover:bg-slate-700 hover:border-yellow-400">
+              Thai
+              <Image
+                className="rounded-xl border-4 border-white mb-2 mt-2"
+                src="/flags/thai-flag.jpg"
+                width={48}
+                height={24}
+                alt="Picture of the author"
+              />
+            </div>
+
+            <div onClick={() => handlePickLanguage("Vietnamese")} className="p-2 border-4 bg-slate-800 border-slate-700 rounded-xl text-white w-48 text-2xl flex flex-col items-center
+            hover:bg-slate-700 hover:border-yellow-400">
+              Vietnamese
+              <Image
+                className="rounded-xl border-4 border-white mb-2 mt-2"
+                src="/flags/vietnam-flag.png"
+                width={48}
+                height={24}
+                alt="Picture of the author"
+              />
+            </div>
+          </div>
+        </div>
+      </>
+    }
     </main>
   );
 }
