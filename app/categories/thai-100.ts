@@ -51,7 +51,7 @@ export const thaiVocabulary: Lesson[] = [
     {
       id: 7,
       question: "ครอบครัว",
-      romanized: "khrong khrua",
+      romanized: "khrop-khrua",
       answer: ["Family"]
     },
     {
@@ -69,7 +69,7 @@ export const thaiVocabulary: Lesson[] = [
     {
       id: 10,
       question: "สวัสดี",
-      romanized: "sawatdi",
+      romanized: "sawat-dee",
       answer: ["Hello"]
     },
     {
@@ -94,7 +94,7 @@ export const thaiVocabulary: Lesson[] = [
       id: 14,
       question: "สบายดีไหม",
       romanized: "sabai dee mai",
-      answer: ["How are you", "How are u"]
+      answer: ["How are you", "How are u", "How are you?", "How are u?"]
     },
     {
       id: 15,
@@ -105,7 +105,7 @@ export const thaiVocabulary: Lesson[] = [
     {
       id: 16,
       question: "อาหาร",
-      romanized: "aahaan",
+      romanized: "aa-haan",
       answer: ["Food"]
     },
     {
@@ -153,7 +153,7 @@ export const thaiVocabulary: Lesson[] = [
     {
       id: 24,
       question: "ไป",
-      romanized: "pai",
+      romanized: "bpai",
       answer: ["Go"]
     },
     {
