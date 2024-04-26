@@ -153,7 +153,21 @@ const lessons: Languages = {
 
 const ChoiceElement = ({str, onClick}: any) => {
   return (
-    <button onClick={onClick} className="p-4 border rounded-lg items-center text-center hover:bg-yellow-400 hover:text-black font-bold mt-4 md:h-40 md:w-40 md:text-xl">{str}</button>
+    <button onClick={onClick} className="p-4 border rounded-lg items-center text-center hover:bg-yellow-400 hover:text-black font-bold mt-4 md:h-40 md:w-40 md:text-2xl">{str}</button>
+  )
+}
+
+const AudioChoiceElement = ({str, onClick, showRomanized}: any) => {
+
+  return (
+    <button onClick={onClick} className="text-wrap p-8 border rounded-lg hover:border-yellow-400 text-2xl font-bold mt-4 h-40 w-40 md:text-2xl">
+      <div className="text-wrap">
+        <div className={`text-yellow-400 ${!showRomanized ? 'text-4xl' : ''}`}>{str.question}</div>
+        {showRomanized && 
+          <div className="text-sm mt-4">{str.romanized}</div>
+        }
+      </div>
+    </button>
   )
 }
 
@@ -192,6 +206,47 @@ function PickChoice({lessons, currentIndex, handleChoice}: {lessons: Lesson[], c
       <ChoiceElement onClick= {() => handleChoice(randomizedArray[1])} str={randomizedArray[1]}></ChoiceElement>
       <ChoiceElement onClick= {() => handleChoice(randomizedArray[2])} str={randomizedArray[2]}></ChoiceElement>
       <ChoiceElement onClick= {() => handleChoice(randomizedArray[3])} str={randomizedArray[3]}></ChoiceElement>
+    </div>
+    )}
+    </>
+  )
+}
+
+function PickFromAudio({lessons, currentIndex, handleChoice, showRomanized}: {lessons: Lesson[], currentIndex: number, handleChoice: any, showRomanized: boolean}) {
+
+  const [hasMounted, setHasMounted] = useState(false); // <-- add this
+
+  useEffect(() => {
+    setHasMounted(true); // <-- toggle on client-side, because useEffect doesn't run on server-side/during SSG build
+  }, []);
+
+  let randomizedArray = [] as any
+
+  if(Array.isArray(lessons[currentIndex].answer)) {
+    randomizedArray[0] = lessons[currentIndex]
+  }
+  else {
+    randomizedArray[0] = lessons[currentIndex]
+  }
+
+  while(randomizedArray.length < 4) {
+    let randomElement = lessons[Math.floor(Math.random() * lessons.length)]
+
+    if(randomElement != lessons[currentIndex]) {
+      randomizedArray.push(randomElement)
+    }
+  }
+
+  shuffleArray(randomizedArray)
+
+  return (
+    <>
+    {hasMounted && (
+    <div className="grid grid-cols-2 grid-rows-2 gap-4">
+      <AudioChoiceElement showRomanized={showRomanized} onClick={() => handleChoice(randomizedArray[0].answer[0])} str={randomizedArray[0]} className=""></AudioChoiceElement>
+      <AudioChoiceElement showRomanized={showRomanized} onClick={() => handleChoice(randomizedArray[1].answer[0])} str={randomizedArray[1]} className=""></AudioChoiceElement>
+      <AudioChoiceElement showRomanized={showRomanized} onClick={() => handleChoice(randomizedArray[2].answer[0])} str={randomizedArray[2]} className=""></AudioChoiceElement>
+      <AudioChoiceElement showRomanized={showRomanized} onClick={() => handleChoice(randomizedArray[3].answer[0])} str={randomizedArray[3]} className=""></AudioChoiceElement>
     </div>
     )}
     </>
@@ -422,13 +477,41 @@ export default function Home() {
 
   const handleRenderLesson = () => {
 
-    if(Math.random() < 0.5) {
+    let rand = Math.random()
+    if(rand < 1/3) {
       return (
-        <PickChoice lessons={lessons[selectedLanguage].list} currentIndex={lessonIndex} handleChoice={handleChoice}></PickChoice>
+        <>
+          <div className="flex flex-row mb-4 font-semibold text-4xl text-yellow-400">
+            {lessons[selectedLanguage].list[lessonIndex].question} {showRomanized && lessons[selectedLanguage].hasRoman ? `- ${lessons[selectedLanguage].list[lessonIndex].romanized}` : ''}
+            <div onClick={playLanguageSound} className="bg-green-400 rounded-lg p-2 ml-4 hover:bg-green-600"><HiMiniSpeakerWave  className="text-black text-2xl"></HiMiniSpeakerWave></div>
+          </div>
+          <PickChoice lessons={lessons[selectedLanguage].list} currentIndex={lessonIndex} handleChoice={handleChoice}></PickChoice>
+        </>
+        
       )
     }
+    else if (Math.random() < 2/3) {
+      return (
+      <>
+         <div className="flex flex-row mb-4 font-semibold text-4xl text-yellow-400">
+            {/* {lessons[selectedLanguage].list[lessonIndex].question} {showRomanized && lessons[selectedLanguage].hasRoman ? `- ${lessons[selectedLanguage].list[lessonIndex].romanized}` : ''} */}
+            <div onClick={playLanguageSound} className="bg-green-400 rounded-lg p-4 rounded-xl border-green-500 border-4 ml-4 hover:bg-green-500"><HiMiniSpeakerWave size={48}className="text-black text-2xl"></HiMiniSpeakerWave></div>
+          </div>
+          <PickFromAudio showRomanized={showRomanized} lessons={lessons[selectedLanguage].list} currentIndex={lessonIndex} handleChoice={handleChoice}></PickFromAudio>
+
+          {/*Some random functon*/}
+      </>
+      )
+    };
+
     return (
-      <Card lesson={lessons[selectedLanguage].list[lessonIndex]} onSubmitLesson={onSubmitLesson} onNextLesson={onNextLesson}></Card>
+      <>
+      <div className="flex flex-row mb-4 font-semibold text-4xl text-yellow-400">
+            {lessons[selectedLanguage].list[lessonIndex].question} {showRomanized && lessons[selectedLanguage].hasRoman ? `- ${lessons[selectedLanguage].list[lessonIndex].romanized}` : ''}
+            <div onClick={playLanguageSound} className="bg-green-400 rounded-lg p-2 ml-4 hover:bg-green-600"><HiMiniSpeakerWave  className="text-black text-2xl"></HiMiniSpeakerWave></div>
+          </div>
+          <Card lesson={lessons[selectedLanguage].list[lessonIndex]} onSubmitLesson={onSubmitLesson} onNextLesson={onNextLesson}></Card>
+      </>
     )
   }
 
@@ -506,10 +589,10 @@ export default function Home() {
       {!settingsOpen && lessonIndex < lessons[selectedLanguage].list.length &&
       <>
         <div className="flex flex-col items-center text-center w-full mt-40 ">
-          <div className="flex flex-row mb-4 font-semibold text-4xl text-yellow-400">
+          {/* <div className="flex flex-row mb-4 font-semibold text-4xl text-yellow-400">
             {lessons[selectedLanguage].list[lessonIndex].question} {showRomanized && lessons[selectedLanguage].hasRoman ? `- ${lessons[selectedLanguage].list[lessonIndex].romanized}` : ''}
             <div onClick={playLanguageSound} className="bg-green-400 rounded-lg p-2 ml-4 hover:bg-green-600"><HiMiniSpeakerWave  className="text-black text-2xl"></HiMiniSpeakerWave></div>
-          </div>
+          </div> */}
 
           {!loading ? (
             handleRenderLesson()
