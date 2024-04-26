@@ -10,6 +10,8 @@ import { SettingsView } from "@/components/native/SettingsView";
 import { TopNav } from "@/components/native/TopNav";
 import { Languages } from "./interfaces/Languages";
 import { Lesson } from "./interfaces/Lesson";
+import { russianVocab } from "./categories/russian-100";
+import { arabicVocab } from "./categories/arabic-100";
 
 function RevealCard({lesson, onCloseReveal}: any) {
 
@@ -138,6 +140,14 @@ const lessons: Languages = {
   "vietnamese": {
     hasRoman: false,
     list: vietnameseWords
+  },
+  "russian": {
+    hasRoman: true,
+    list: russianVocab
+  },
+  "arabic": {
+    hasRoman: true,
+    list: arabicVocab
   }
 }
 
@@ -279,6 +289,7 @@ export default function Home() {
       setSelectedLanguage(storedLanguage)
       setLanguageSelectionIsOpen(false)
     }
+
   }, []);
 
 

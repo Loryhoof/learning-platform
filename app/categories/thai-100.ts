@@ -1,9 +1,4 @@
-interface Lesson {
-    id: number,
-    question: string,
-    romanized: string,
-    answer: string[]
-  }
+import { Lesson } from "../interfaces/Lesson";
 
 export const thaiVocabulary: Lesson[] = [
     {
