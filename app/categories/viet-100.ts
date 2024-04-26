@@ -1,610 +1,606 @@
-interface Lesson {
-    id: number,
-    question: string,
-    romanized: string,
-    answer: string | string[]
-  }
+import { Lesson } from "../interfaces/Lesson";
+
 
 export const vietnameseWords: Lesson[] = [
     {
       id: 0,
       question: "và",
       romanized: "và",
-      answer: "and"
+      answer: ["and"]
     },
     {
       id: 1,
       question: "là",
       romanized: "là",
-      answer: "is"
+      answer: ["is"]
     },
     {
       id: 2,
       question: "tôi",
       romanized: "tôi",
-      answer: "I"
+      answer: ["I"]
     },
     {
       id: 3,
       question: "bạn",
       romanized: "bạn",
-      answer: "you"
+      answer: ["you"]
     },
     {
       id: 4,
       question: "của",
       romanized: "của",
-      answer: "of"
+      answer: ["of"]
     },
     {
       id: 5,
       question: "nó",
       romanized: "nó",
-      answer: "it"
+      answer: ["it"]
     },
     {
       id: 6,
       question: "chúng tôi",
       romanized: "chúng tôi",
-      answer: "we"
+      answer: ["we"]
     },
     {
       id: 7,
       question: "trong",
       romanized: "trong",
-      answer: "in"
+      answer: ["in"]
     },
     {
       id: 8,
       question: "có",
       romanized: "có",
-      answer: "have"
+      answer: ["have"]
     },
     {
       id: 9,
       question: "không",
       romanized: "không",
-      answer: "no"
+      answer: ["no"]
     },
     {
       id: 10,
       question: "với",
       romanized: "với",
-      answer: "with"
+      answer: ["with"]
     },
     {
       id: 11,
       question: "một",
       romanized: "một",
-      answer: "one"
+      answer: ["one"]
     },
     {
       id: 12,
       question: "người",
       romanized: "người",
-      answer: "person"
+      answer: ["person"]
     },
     {
       id: 13,
       question: "cho",
       romanized: "cho",
-      answer: "for"
+      answer: ["for"]
     },
     {
       id: 14,
       question: "ở",
       romanized: "ở",
-      answer: "at"
+      answer: ["at"]
     },
     {
       id: 15,
       question: "cái",
       romanized: "cái",
-      answer: "thing"
+      answer: ["thing"]
     },
     {
       id: 16,
       question: "trên",
       romanized: "trên",
-      answer: "on"
+      answer: ["on"]
     },
     {
       id: 17,
       question: "đó",
       romanized: "đó",
-      answer: "there"
+      answer: ["there"]
     },
     {
       id: 18,
       question: "anh",
       romanized: "anh",
-      answer: "he"
+      answer: ["he"]
     },
     {
       id: 19,
       question: "ra",
       romanized: "ra",
-      answer: "out"
+      answer: ["out"]
     },
     {
       id: 20,
       question: "như",
       romanized: "như",
-      answer: "like"
+      answer: ["like"]
     },
     {
       id: 21,
       question: "em",
       romanized: "em",
-      answer: "she"
+      answer: ["she"]
     },
     {
       id: 22,
       question: "cũng",
       romanized: "cũng",
-      answer: "also"
+      answer: ["also"]
     },
     {
       id: 23,
       question: "những",
       romanized: "những",
-      answer: "those"
+      answer: ["those"]
     },
     {
       id: 24,
       question: "đến",
       romanized: "đến",
-      answer: "to"
+      answer: ["to"]
     },
     {
       id: 25,
       question: "nhìn",
       romanized: "nhìn",
-      answer: "look"
+      answer: ["look"]
     },
     {
       id: 26,
       question: "thấy",
       romanized: "thấy",
-      answer: "see"
+      answer: ["see"]
     },
     {
       id: 27,
       question: "đi",
       romanized: "đi",
-      answer: "go"
+      answer: ["go"]
     },
     {
       id: 28,
       question: "lại",
       romanized: "lại",
-      answer: "again"
+      answer: ["again"]
     },
     {
       id: 29,
       question: "rồi",
       romanized: "rồi",
-      answer: "already"
+      answer: ["already"]
     },
     {
       id: 30,
       question: "nếu",
       romanized: "nếu",
-      answer: "if"
+      answer: ["if"]
     },
     {
       id: 31,
       question: "chỉ",
       romanized: "chỉ",
-      answer: "only"
+      answer: ["only"]
     },
     {
       id: 32,
       question: "nhưng",
       romanized: "nhưng",
-      answer: "but"
+      answer: ["but"]
     },
     {
       id: 33,
       question: "lời",
       romanized: "lời",
-      answer: "words"
+      answer: ["words"]
     },
     {
       id: 34,
       question: "khi",
       romanized: "khi",
-      answer: "when"
+      answer: ["when"]
     },
     {
       id: 35,
       question: "từ",
       romanized: "từ",
-      answer: "from"
+      answer: ["from"]
     },
     {
       id: 36,
       question: "họ",
       romanized: "họ",
-      answer: "they"
+      answer: ["they"]
     },
     {
       id: 37,
       question: "này",
       romanized: "này",
-      answer: "this"
+      answer: ["this"]
     },
     {
       id: 38,
       question: "biết",
       romanized: "biết",
-      answer: "know"
+      answer: ["know"]
     },
     {
       id: 39,
       question: "qua",
       romanized: "qua",
-      answer: "through"
+      answer: ["through"]
     },
     {
       id: 40,
       question: "nói",
       romanized: "nói",
-      answer: "say"
+      answer: ["say"]
     },
     {
       id: 41,
       question: "chúng",
       romanized: "chúng",
-      answer: "they"
+      answer: ["they"]
     },
     {
       id: 42,
       question: "về",
       romanized: "về",
-      answer: "about"
+      answer: ["about"]
     },
     {
       id: 43,
       question: "tới",
       romanized: "tới",
-      answer: "to"
+      answer: ["to"]
     },
     {
       id: 44,
       question: "muốn",
       romanized: "muốn",
-      answer: "want"
+      answer: ["want"]
     },
     {
       id: 45,
       question: "sẽ",
       romanized: "sẽ",
-      answer: "will"
+      answer: ["will"]
     },
     {
       id: 46,
       question: "con",
       romanized: "con",
-      answer: "child"
+      answer: ["child"]
     },
     {
       id: 47,
       question: "việc",
       romanized: "việc",
-      answer: "work"
+      answer: ["work"]
     },
     {
       id: 48,
       question: "dưới",
       romanized: "dưới",
-      answer: "under"
+      answer: ["under"]
     },
     {
       id: 49,
       question: "bên",
       romanized: "bên",
-      answer: "beside"
+      answer: ["beside"]
     },
     {
       id: 50,
       question: "thì",
       romanized: "thì",
-      answer: "then"
+      answer: ["then"]
     },
     {
       id: 51,
       question: "vào",
       romanized: "vào",
-      answer: "into"
+      answer: ["into"]
     },
     {
       id: 52,
       question: "đây",
       romanized: "đây",
-      answer: "here"
+      answer: ["here"]
     },
     {
       id: 53,
       question: "còn",
       romanized: "còn",
-      answer: "still"
+      answer: ["still"]
     },
     {
       id: 54,
       question: "lên",
       romanized: "lên",
-      answer: "up"
+      answer: ["up"]
     },
     {
       id: 55,
       question: "sau",
       romanized: "sau",
-      answer: "after"
+      answer: ["after"]
     },
     {
       id: 56,
       question: "năm",
       romanized: "năm",
-      answer: "year"
+      answer: ["year"]
     },
     {
       id: 57,
       question: "đại",
       romanized: "đại",
-      answer: "great"
+      answer: ["great"]
     },
     {
       id: 58,
       question: "bị",
       romanized: "bị",
-      answer: "by"
+      answer: ["by"]
     },
     {
       id: 59,
       question: "phải",
       romanized: "phải",
-      answer: "must"
+      answer: ["must"]
     },
     {
       id: 60,
       question: "lớn",
       romanized: "lớn",
-      answer: "big"
+      answer: ["big"]
     },
     {
       id: 61,
       question: "nhỏ",
       romanized: "nhỏ",
-      answer: "small"
+      answer: ["small"]
     },
     {
       id: 62,
       question: "cùng",
       romanized: "cùng",
-      answer: "together"
+      answer: ["together"]
     },
     {
       id: 63,
       question: "nhận",
       romanized: "nhận",
-      answer: "receive"
+      answer: ["receive"]
     },
     {
       id: 64,
       question: "hơn",
       romanized: "hơn",
-      answer: "more"
+      answer: ["more"]
     },
     {
       id: 65,
       question: "trước",
       romanized: "trước",
-      answer: "before"
+      answer: ["before"]
     },
     {
       id: 66,
       question: "thế",
       romanized: "thế",
-      answer: "so"
+      answer: ["so"]
     },
     {
       id: 67,
       question: "gì",
       romanized: "gì",
-      answer: "what"
+      answer: ["what"]
     },
     {
       id: 68,
       question: "nên",
       romanized: "nên",
-      answer: "should"
+      answer: ["should"]
     },
     {
       id: 69,
       question: "điều",
       romanized: "điều",
-      answer: "thing"
+      answer: ["thing"]
     },
     {
       id: 70,
       question: "đều",
       romanized: "đều",
-      answer: "all"
+      answer: ["all"]
     },
     {
       id: 71,
       question: "được",
       romanized: "được",
-      answer: "get"
+      answer: ["get"]
     },
     {
       id: 72,
       question: "mình",
       romanized: "mình",
-      answer: "self"
+      answer: ["self"]
     },
     {
       id: 73,
       question: "tất",
       romanized: "tất",
-      answer: "all"
+      answer: ["all"]
     },
     {
       id: 74,
       question: "ông",
       romanized: "ông",
-      answer: "he"
+      answer: ["he"]
     },
     {
       id: 75,
       question: "đời",
       romanized: "đời",
-      answer: "life"
+      answer: ["life"]
     },
     {
       id: 76,
       question: "mới",
       romanized: "mới",
-      answer: "new"
+      answer: ["new"]
     },
     {
       id: 77,
       question: "nước",
       romanized: "nước",
-      answer: "water"
+      answer: ["water"]
     },
     {
       id: 78,
       question: "luôn",
       romanized: "luôn",
-      answer: "always"
+      answer: ["always"]
     },
     {
       id: 79,
       question: "lòng",
       romanized: "lòng",
-      answer: "heart"
+      answer: ["heart"]
     },
     {
       id: 80,
       question: "giữa",
       romanized: "giữa",
-      answer: "between"
+      answer: ["between"]
     },
     {
       id: 81,
       question: "nhà",
       romanized: "nhà",
-      answer: "home"
+      answer: ["home"]
     },
     {
       id: 82,
       question: "cả",
       romanized: "cả",
-      answer: "both"
+      answer: ["both"]
     },
     {
       id: 83,
       question: "nay",
       romanized: "nay",
-      answer: "today"
+      answer: ["today"]
     },
     {
       id: 84,
       question: "chưa",
       romanized: "chưa",
-      answer: "not yet"
+      answer: ["not yet"]
     },
     {
       id: 85,
       question: "lúc",
       romanized: "lúc",
-      answer: "time"
+      answer: ["time"]
     },
     {
       id: 86,
       question: "tự",
       romanized: "tự",
-      answer: "self"
+      answer: ["self"]
     },
     {
       id: 87,
       question: "vì",
       romanized: "vì",
-      answer: "because"
+      answer: ["because"]
     },
     {
       id: 88,
       question: "lại",
       romanized: "lại",
-      answer: "back"
+      answer: ["back"]
     },
     {
       id: 89,
       question: "chỗ",
       romanized: "chỗ",
-      answer: "place"
+      answer: ["place"]
     },
     {
       id: 90,
       question: "ngày",
       romanized: "ngày",
-      answer: "day"
+      answer: ["day"]
     },
     {
       id: 91,
       question: "mỗi",
       romanized: "mỗi",
-      answer: "each"
+      answer: ["each"]
     },
     {
       id: 92,
       question: "thời gian",
       romanized: "thời gian",
-      answer: "time"
+      answer: ["time"]
     },
     {
       id: 93,
       question: "đứng",
       romanized: "đứng",
-      answer: "stand"
+      answer: ["stand"]
     },
     {
       id: 94,
       question: "cần",
       romanized: "cần",
-      answer: "need"
+      answer: ["need"]
     },
     {
       id: 95,
       question: "lần",
       romanized: "lần",
-      answer: "time"
+      answer: ["time"]
     },
     {
       id: 96,
       question: "giờ",
       romanized: "giờ",
-      answer: "hour"
+      answer: ["hour"]
     },
     {
       id: 97,
       question: "xem",
       romanized: "xem",
-      answer: "watch"
+      answer: ["watch"]
     },
     {
       id: 98,
       question: "tình",
       romanized: "tình",
-      answer: "love"
+      answer: ["love"]
     },
     {
       id: 99,
       question: "điện thoại",
       romanized: "điện thoại",
-      answer: "telephone"
+      answer: ["telephone", "phone"]
     }
   ];
   

@@ -1,13 +1,15 @@
 "use client"
 
-import { KeyboardEventHandler, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { thaiVocabulary } from "./categories/thai-100";
 import { getSumInArray, randomBetween, shuffleArray } from "./utils";
 import { vietnameseWords } from "./categories/viet-100";
-import { HiMiniSpeakerWave, HiOutlineSpeakerWave } from "react-icons/hi2";
-import { GoGear } from "react-icons/go";
-import { Switch } from "@/components/ui/switch";
-import { IoMdClose } from "react-icons/io";
+import { HiMiniSpeakerWave } from "react-icons/hi2";
+import { LanguageSelector } from "@/components/native/LanguageSelector";
+import { SettingsView } from "@/components/native/SettingsView";
+import { TopNav } from "@/components/native/TopNav";
+import { Languages } from "./interfaces/Languages";
+import { Lesson } from "./interfaces/Lesson";
 
 function RevealCard({lesson, onCloseReveal}: any) {
 
@@ -128,8 +130,16 @@ function Card({lesson, onNextLesson, onSubmitLesson}: any) {
   )
 }
 
-const lessons = thaiVocabulary //
-const course = "Thai"
+const lessons: Languages = {
+  "thai": {
+    hasRoman: true,
+    list: thaiVocabulary
+  },
+  "vietnamese": {
+    hasRoman: false,
+    list: vietnameseWords
+  }
+}
 
 const ChoiceElement = ({str, onClick}: any) => {
   return (
@@ -137,7 +147,7 @@ const ChoiceElement = ({str, onClick}: any) => {
   )
 }
 
-function PickChoice({lessons, currentIndex, handleChoice}: any) {
+function PickChoice({lessons, currentIndex, handleChoice}: {lessons: Lesson[], currentIndex: number, handleChoice: any}) {
 
   const [hasMounted, setHasMounted] = useState(false); // <-- add this
 
@@ -155,13 +165,9 @@ function PickChoice({lessons, currentIndex, handleChoice}: any) {
   }
 
   while(randomizedArray.length < 4) {
-    let randomElement = lessons[Math.floor(Math.random() * lessons.length)].answer;
+    let randomElement = lessons[Math.floor(Math.random() * lessons.length)].answer[0]
 
-    if(Array.isArray(randomElement)) {
-      randomElement = randomElement[0]
-    }
-
-    if(randomElement != lessons[currentIndex].answer) {
+    if(randomElement != lessons[currentIndex].answer[0]) {
       randomizedArray.push(randomElement)
     }
   }
@@ -190,11 +196,11 @@ export default function Home() {
   const [lessonIndex, setLessonIndex] = useState(0)
   const [showRomanized, setShowRomanized] = useState(true)
   const [lessonState, setLessonState] = useState([]) as any
-  const [totalLessons, setTotalLessons] = useState(0)
+  //const [totalLessons, setTotalLessons] = useState(0)
 
   const [statusText, setStatusText] = useState("")
   
-  const [step, setStep] = useState(5)
+  //const [step, setStep] = useState(5)
 
   const [loading, setLoading] = useState(false)
 
@@ -202,22 +208,62 @@ export default function Home() {
 
   const [settingsOpen, setSettingsOpen] = useState(false)
 
+
+  //language selection stuff
+  const [selectedLanguage, setSelectedLanguage] = useState("")
+  const [languageSelectionIsOpen, setLanguageSelectionIsOpen] = useState(false)
+
+
+  // state
+
+  interface ProgressInterface {
+    [key: string]: {
+      step: number,
+      totalLessons: number
+    }
+  }
   
+  const [progress, setProgress] = useState<ProgressInterface>({});
 
   useEffect(() => {
-    const dataTotalLessons = localStorage.getItem('totalLessons') as string;
-    const dataStep = localStorage.getItem('step') as string;
-    const romanized = localStorage.getItem('romanized') as string;
-    if (dataTotalLessons) {
-      setTotalLessons(parseInt(dataTotalLessons));
-    }
+    //const dataTotalLessons = localStorage.getItem('totalLessons') as string;
+    //const dataStep = localStorage.getItem('step') as string;
 
-    if(dataStep) {
-      setStep(parseInt(dataStep))
+
+
+
+    const storedProgress = localStorage.getItem('progress') as string;
+    
+    const romanized = localStorage.getItem('romanized') as string;
+    const storedLanguage = localStorage.getItem('selectedLanguage') as string;
+
+    if(storedProgress) {
+      setProgress(JSON.parse(storedProgress))
+    }
+    else {
+      // TEMP RECOVERY FOR OLD USERS:
+      
+      const recoveryStep = localStorage.getItem('step') as string;
+      const recoveryTotalLessons = localStorage.getItem('totalLessons') as string;
+
+      // If old values are there, recover, e.g. make a new progress obj using old values
+      if(recoveryStep && recoveryTotalLessons) {
+        setProgress(prevProgress => {
+          const updatedProgress = {
+            ...prevProgress,
+            'thai': {
+              step: Number(recoveryStep),
+              totalLessons: Number(recoveryTotalLessons)
+            }
+          };
+          localStorage.setItem('progress', JSON.stringify(updatedProgress))
+          return updatedProgress;
+        });
+      }
+      // END OF RECOVERY
     }
 
     if(romanized) {
-      console.log(romanized)
       if(romanized == "true") {
         setShowRomanized(true)
       }
@@ -226,13 +272,13 @@ export default function Home() {
       }
     }
 
-    let str = []
-    for (let i = 0; i < thaiVocabulary.length; i++) {
-      str.push(thaiVocabulary[i].question)
+    if (!storedLanguage) {
+      setLanguageSelectionIsOpen(true)
     }
-
-    //console.log(str)
-
+    else {
+      setSelectedLanguage(storedLanguage)
+      setLanguageSelectionIsOpen(false)
+    }
   }, []);
 
 
@@ -281,32 +327,56 @@ export default function Home() {
 
     //console.log(totalLessons, getSumInArray(lessonState))
 
-    if(totalLessons >= step - 1) {
+    //console.log(progress, 'progress')
+    //return
+
+    //(progress[selectedLanguage].totalLessons, progress[selectedLanguage].step)
+
+    if(progress[selectedLanguage].totalLessons >= progress[selectedLanguage].step - 1) {
+      //console.log('islagrger')
       let result = lessonIndex
 
       while (result == lessonIndex) {
-        result = randomBetween(0, step - 1)
+        result = randomBetween(0, progress[selectedLanguage].step - 1)
       }
 
       setLessonIndex(result)
 
-      if(getSumInArray(lessonState) >= 10 && totalLessons < thaiVocabulary.length) {
-        setTotalLessons(totalLessons + 1)
-        setStep(step+1)
+      if(getSumInArray(lessonState) >= 10 && progress[selectedLanguage].totalLessons < lessons[selectedLanguage].list.length) {
+        //setTotalLessons(totalLessons + 1)
+        //setStep(step+1)
         setLessonState([])
+
+        setProgress(prevProgress => ({
+          ...prevProgress,
+          [selectedLanguage]: {
+            step: progress[selectedLanguage].step + 1,
+            totalLessons: progress[selectedLanguage].totalLessons + 1
+          }
+        }));
+        
       }
     }
     else {
       setLessonIndex(lessonIndex + 1)
-      setTotalLessons(totalLessons + 1)
+      //setTotalLessons(totalLessons + 1)
+
+      setProgress(prevProgress => ({
+          ...prevProgress,
+          [selectedLanguage]: {
+            step: progress[selectedLanguage].step,
+            totalLessons: progress[selectedLanguage].totalLessons + 1
+          }
+        }));
     }
 
     // if(lessonState[lessonIndex] >= 3) {
     //   setLessonIndex(lessonIndex + 1)
     // }
 
-    localStorage.setItem('totalLessons', (totalLessons).toString());
-    localStorage.setItem('step', (step).toString());
+    //localStorage.setItem('totalLessons', (totalLessons).toString());
+    //localStorage.setItem('step', (step).toString());
+    localStorage.setItem('progress', JSON.stringify(progress))
   }
 
   const handleRomanizedChange = () => {
@@ -322,7 +392,7 @@ export default function Home() {
       return
     }
 
-    let stringToCheckWith = lessons[lessonIndex].answer[0]
+    let stringToCheckWith = lessons[selectedLanguage].list[lessonIndex].answer[0]
 
     // if(Array.isArray(lessons[lessonIndex].answer)) {
     //   stringToCheckWith = lessons[lessonIndex].answer[0]
@@ -343,11 +413,11 @@ export default function Home() {
 
     if(Math.random() < 0.5) {
       return (
-        <PickChoice lessons={lessons} currentIndex={lessonIndex} handleChoice={handleChoice}></PickChoice>
+        <PickChoice lessons={lessons[selectedLanguage].list} currentIndex={lessonIndex} handleChoice={handleChoice}></PickChoice>
       )
     }
     return (
-      <Card lesson={lessons[lessonIndex]} onSubmitLesson={onSubmitLesson} onNextLesson={onNextLesson}></Card>
+      <Card lesson={lessons[selectedLanguage].list[lessonIndex]} onSubmitLesson={onSubmitLesson} onNextLesson={onNextLesson}></Card>
     )
   }
 
@@ -365,13 +435,50 @@ export default function Home() {
     setSettingsOpen(!settingsOpen)
   }
 
+  const handlePickLanguage = (language: string) => {
+    //console.log(language)
+    setSelectedLanguage(language)
+    setLanguageSelectionIsOpen(false)
+    handleCloseLanguagePicker()
+
+    localStorage.setItem('selectedLanguage', language)
+    
+    let dataProgress = JSON.parse(localStorage.getItem('progress') as string)
+
+    if(dataProgress && dataProgress[language]) {
+      setProgress(JSON.parse(dataProgress))
+    }
+    else {
+      setProgress(prevProgress => {
+        const updatedProgress = {
+          ...prevProgress,
+          [language]: {
+            step: 5,
+            totalLessons: 0
+          }
+        };
+        localStorage.setItem('progress', JSON.stringify(updatedProgress))
+        return updatedProgress;
+      });
+    }
+  }
+
+  const handleOpenLanguagePicker = () => {
+    setLanguageSelectionIsOpen(true)
+  }
+
+  const handleCloseLanguagePicker = () => {
+    setLanguageSelectionIsOpen(false)
+  }
+
   const playLanguageSound = () => {
+
 
     // if(audio) {
     //   audio.pause()
     // }
 
-    const newAudio = new Audio(`/audio/thai/${lessonIndex}.mp3`)
+    const newAudio = new Audio(`/audio/${selectedLanguage}/${lessonIndex}.mp3`)
     //setAudio(newAudio)
     newAudio.play()
 
@@ -380,36 +487,16 @@ export default function Home() {
   return (
     <main className="">
 
-    <div className="flex flex-row justify-between p-4 border-b font-semibold">
-          {settingsOpen ?
-            <>
-              <IoMdClose onClick={handleToggleSettings} className="hover:text-yellow-400" size={24}></IoMdClose>
-            </>
-            :
-            <>
-              <GoGear onClick={handleToggleSettings} className="hover:text-yellow-400" size={24}></GoGear>
-            </>
-          }
-          {totalLessons > 0 &&
-            <div>Words Learned: {totalLessons}</div>}
-          {/* <div>Login</div> */}
-    </div> 
+    {!languageSelectionIsOpen && selectedLanguage ?
+    <>
 
-      {!settingsOpen && lessonIndex < lessons.length &&
+      <TopNav language={selectedLanguage} settingsOpen={settingsOpen} totalLessons={progress[selectedLanguage].totalLessons} handleToggleSettings={handleToggleSettings} handleOpenLanguagePicker={handleOpenLanguagePicker}></TopNav> 
+
+      {!settingsOpen && lessonIndex < lessons[selectedLanguage].list.length &&
       <>
-      {/* <div>
-        <label className="">
-         <input className="m-2" type="checkbox"
-                checked={showRomanized}
-                onChange={handleRomanizedChange}
-         ></input>
-          Show romanized
-        </label>
-      </div> */}
         <div className="flex flex-col items-center text-center w-full mt-40 ">
-          {/* <div className="mb-2 font-semibold text-xl">{course} - {lessonIndex + 1} / 100</div> */}
           <div className="flex flex-row mb-4 font-semibold text-4xl text-yellow-400">
-            {lessons[lessonIndex].question} {showRomanized ? `- ${lessons[lessonIndex].romanized}` : ''}
+            {lessons[selectedLanguage].list[lessonIndex].question} {showRomanized && lessons[selectedLanguage].hasRoman ? `- ${lessons[selectedLanguage].list[lessonIndex].romanized}` : ''}
             <div onClick={playLanguageSound} className="bg-green-400 rounded-lg p-2 ml-4 hover:bg-green-600"><HiMiniSpeakerWave  className="text-black text-2xl"></HiMiniSpeakerWave></div>
           </div>
 
@@ -418,7 +505,7 @@ export default function Home() {
           ) : (
             <div className="text-2xl">
               <div className={`${statusText === correctString ? "text-green-500" : "text-red-500"} mt-4 font-semibold`}>{statusText}</div>
-              <div className="">The answer was: <span className="text-yellow-400 font-semibold text-xl">{lessons[lessonIndex].answer[0]}</span></div>
+              <div className="">The answer was: <span className="text-yellow-400 font-semibold text-xl">{lessons[selectedLanguage].list[lessonIndex].answer[0]}</span></div>
               <button onClick={onNextLesson} className="bg-white rounded-lg text-black font-semibold p-3 mt-5 hover:bg-gray-100">Next Lesson</button>
             </div>
           )}
@@ -428,26 +515,15 @@ export default function Home() {
 
       {settingsOpen && 
       <>
-        <div className="flex flex-col items-center text-center w-full mt-40">
-          <h1 className="text-3xl mb-6">Preferences</h1>
-          {/* <label className="">
-          <input className="m-2" type="checkbox"
-                  checked={showRomanized}
-                  onChange={handleRomanizedChange}
-          ></input>
-            Show Romanized
-          </label> */}
-          <div className="flex flex-row gap-2 text-xl">
-            <div>Show Romanized</div>
-            <Switch
-              checked={showRomanized}
-              onCheckedChange={handleRomanizedChange}
-              aria-readonly
-            />
-          </div>
-        </div>
+        <SettingsView showRomanized={showRomanized} handleRomanizedChange={handleRomanizedChange}></SettingsView>
       </>
       } 
+      </>
+      :
+      <>
+        <LanguageSelector handlePickLanguage={handlePickLanguage}></LanguageSelector>
+      </>
+    }
     </main>
   );
 }
